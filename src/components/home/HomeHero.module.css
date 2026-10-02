@@ -1,0 +1,114 @@
+.heroWrap {
+  --hero-reserved: 81px;
+  position: relative;
+  width: min(1536px, 100%, calc((100svh - var(--hero-reserved) - 24px) * 3 / 2 / 0.92));
+  margin-inline: auto;
+}
+
+.heroStageWrap {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+}
+
+.stage {
+  --mx: 0;
+  --my: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim {
+    animation: none !important;
+  }
+}
+
+.paused .anim {
+  animation-play-state: paused !important;
+}
+
+.outer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes floatSneaker {
+  0% { transform: translateY(0) rotate(10deg); }
+  100% { transform: translateY(-3%) rotate(12deg); }
+}
+.animSneaker {
+  animation: floatSneaker 6.8s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlassArc {
+  0% { transform: translateY(0) scale(1) rotate(0deg); }
+  100% { transform: translateY(-4%) scale(1.02) rotate(2deg); }
+}
+.animGlassArc {
+  animation: floatGlassArc 7.8s ease-in-out infinite alternate;
+  animation-delay: -1.2s;
+}
+
+@keyframes floatBigSphere {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4%) scale(1.01); }
+}
+.animBigSphere {
+  animation: floatBigSphere 8.2s ease-in-out infinite alternate;
+}
+
+@keyframes floatSpring {
+  0% { transform: translateY(0) rotate(-15deg); }
+  100% { transform: translateY(-6%) rotate(-10deg); }
+}
+.animSpring {
+  animation: floatSpring 6.5s ease-in-out infinite alternate;
+  animation-delay: -0.5s;
+}
+
+@keyframes floatGlassDisc {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(3%) rotate(-5deg); }
+}
+.animGlassDisc {
+  animation: floatGlassDisc 7.2s ease-in-out infinite alternate;
+  animation-delay: -2s;
+}
+
+@keyframes floatTorus {
+  0% { transform: translateY(0) rotate(-20deg); }
+  100% { transform: translateY(-4%) rotate(-15deg); }
+}
+.animTorus {
+  animation: floatTorus 7.5s ease-in-out infinite alternate;
+  animation-delay: -0.8s;
+}
+
+@keyframes floatChromeBall {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8%); }
+}
+.animChromeBall {
+  animation: floatChromeBall 6.3s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlassCone {
+  0% { transform: translateY(0) rotate(20deg); }
+  100% { transform: translateY(-5%) rotate(25deg); }
+}
+.animGlassCone {
+  animation: floatGlassCone 6.7s ease-in-out infinite alternate;
+  animation-delay: -1s;
+}
+
+@keyframes floatBubble {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8%) scale(1.05); }
+}
+.animBubble {
+  animation: floatBubble 8s ease-in-out infinite alternate;
+  animation-delay: -2.5s;
+}

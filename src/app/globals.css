@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes emptyFloatY {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(5deg); }
+}
+
+@keyframes emptyFloatX {
+  0% { transform: translateX(0px) rotate(0deg); }
+  100% { transform: translateX(10px) rotate(-5deg); }
+}
+
+.animate-empty-float-y {
+  animation: emptyFloatY 4s ease-in-out infinite alternate;
+}
+
+.animate-empty-float-x {
+  animation: emptyFloatX 5s ease-in-out infinite alternate;
+}

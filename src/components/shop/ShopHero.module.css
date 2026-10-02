@@ -1,0 +1,260 @@
+.stage {
+  --mx: 0;
+  --my: 0;
+}
+
+.heroWrap {
+  --hero-reserved: 81px;
+  position: relative;
+  width: min(1536px, 100%, calc((100svh - var(--hero-reserved) - 24px) * 3 / 2 / 0.92));
+  margin-inline: auto;
+}
+
+.heroStageWrap {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+}
+
+.bubbleLargeStandalone {
+  position: absolute;
+  left: -11%;
+  bottom: -10%;
+  width: 60%;
+  aspect-ratio: 1;
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim {
+    animation: none !important;
+  }
+
+  .outer {
+    transform: none !important;
+  }
+}
+
+.paused .anim {
+  animation-play-state: paused !important;
+}
+
+.outer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.anim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes floatSneaker {
+  0% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+
+  100% {
+    transform: translateY(-0.8cqw) rotate(0.6deg);
+  }
+}
+
+.animSneaker {
+  animation: floatSneaker 4.5s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 65% 46%;
+}
+
+@keyframes scaleShadow {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+}
+
+.animShadow {
+  animation: scaleShadow 3.1s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  /* Shadow origin doesn't matter much if it's placed exactly, but center is 50% 50% of the shadow div itself */
+}
+
+@keyframes floatBigSphere {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+
+  100% {
+    transform: scale(1.03) translateX(0.6cqw);
+  }
+}
+
+.animBigSphere {
+  animation: floatBigSphere 5.5s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 69.5% 33%;
+  animation-delay: -2s;
+}
+
+@keyframes rotateGlassArc {
+  0% {
+    transform: rotate(-2deg) translateX(0);
+  }
+
+  100% {
+    transform: rotate(2deg) translateX(0.4cqw);
+  }
+}
+
+.animGlassArc {
+  animation: rotateGlassArc 4.6s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 55% 39%;
+  animation-delay: -4s;
+}
+
+@keyframes floatSpring {
+  0% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  100% {
+    transform: translateY(1cqw) rotate(2deg);
+  }
+}
+
+.animSpring {
+  animation: floatSpring 3.7s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 49.5% 51%;
+  animation-delay: -1s;
+}
+
+@keyframes floatChromeBall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0.8cqw);
+  }
+}
+
+.animChromeBall {
+  animation: floatChromeBall 3.3s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 53% 45%;
+  animation-delay: -3s;
+}
+
+@keyframes floatCapsule {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0.6cqw);
+  }
+}
+
+.animCapsule {
+  animation: floatCapsule 4.0s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 81.5% 53%;
+  animation-delay: -5s;
+}
+
+@keyframes floatTorusRing {
+  0% {
+    transform: translateY(0) rotate(-8deg);
+  }
+
+  100% {
+    transform: translateY(0.7cqw) rotate(8deg);
+  }
+}
+
+.animTorusRing {
+  animation: floatTorusRing 4.3s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 87.5% 45%;
+  animation-delay: -7s;
+}
+
+@keyframes rotateRingSmall {
+  0% {
+    transform: rotate(-12deg);
+  }
+
+  100% {
+    transform: rotate(12deg);
+  }
+}
+
+.animRingSmall {
+  animation: rotateRingSmall 4.9s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 94% 71%;
+  animation-delay: -2s;
+}
+
+@keyframes floatBubbleLarge {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+
+  100% {
+    transform: scale(1.02) translateX(0.8cqw);
+  }
+}
+
+.animBubbleLarge {
+  animation: floatBubbleLarge 5.2s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 2.6% 73%;
+  animation-delay: -6s;
+}
+
+@keyframes floatBubbleSmall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0.9cqw);
+  }
+}
+
+.animBubbleSmall {
+  animation: floatBubbleSmall 3.6s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 95% 26.5%;
+  animation-delay: -4s;
+}
+
+@keyframes floatBubbleCore {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(1cqw);
+  }
+}
+
+.animBubbleCore {
+  animation: floatBubbleCore 3.0s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: 78.5% 29%;
+  animation-delay: -1s;
+}
