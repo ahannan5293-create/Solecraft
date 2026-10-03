@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { createCheckoutSession } from '@/lib/safepay/client'
 import { checkoutRateLimit } from '@/lib/rate-limit'
+import { ENABLED_PAYMENT_METHODS, PaymentMethod } from '@/lib/config/checkout'
 import { z } from 'zod'
 
 const FREE_SHIPPING_THRESHOLD = 15000
@@ -44,6 +45,10 @@ export async function POST(req: Request) {
     }
 
     const { items, addressId, contactPhone, paymentMethod } = parsed.data
+
+    if (!ENABLED_PAYMENT_METHODS.includes(paymentMethod as PaymentMethod)) {
+      return NextResponse.json({ error: 'This payment method is currently unavailable' }, { status: 400 })
+    }
 
     // 1. Fetch user's chosen address
     const { data: address, error: addressError } = await supabase

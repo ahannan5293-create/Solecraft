@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { formatPrice } from '@/lib/format'
 import { MapPin, Loader2, Info, CreditCard, Banknote } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { ENABLED_PAYMENT_METHODS, PaymentMethod } from '@/lib/config/checkout'
 
 interface Address {
   id: string
@@ -35,7 +36,7 @@ export default function CheckoutForm({ initialAddresses, userId }: CheckoutFormP
   const [selectedAddressId, setSelectedAddressId] = useState<string>(defaultAddress?.id || '')
   
   const [contactPhone, setContactPhone] = useState(defaultAddress?.phone || '')
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cod'>('card')
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(ENABLED_PAYMENT_METHODS[0])
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -180,43 +181,60 @@ export default function CheckoutForm({ initialAddresses, userId }: CheckoutFormP
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <h2 className="text-xl font-bold text-[#0f0f1a] mb-6">Payment Method</h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <label 
-              className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 cursor-pointer transition-colors text-center ${
-                paymentMethod === 'card' 
-                  ? 'border-[#6C5CE7] bg-[#fcfbfff0]' 
-                  : 'border-gray-100 hover:border-gray-200 bg-white'
-              }`}
-            >
-              <input 
-                type="radio" 
-                name="paymentMethod" 
-                className="sr-only"
-                checked={paymentMethod === 'card'}
-                onChange={() => setPaymentMethod('card')}
-              />
-              <CreditCard className={`w-8 h-8 ${paymentMethod === 'card' ? 'text-[#6C5CE7]' : 'text-gray-400'}`} />
-              <span className={`font-bold ${paymentMethod === 'card' ? 'text-[#0f0f1a]' : 'text-gray-500'}`}>Pay with Card</span>
-            </label>
+          {ENABLED_PAYMENT_METHODS.length === 1 ? (
+            <div className="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-100 bg-[#fcfbfff0]">
+              {ENABLED_PAYMENT_METHODS[0] === 'cod' ? (
+                <Banknote className="w-6 h-6 text-[#6C5CE7]" />
+              ) : (
+                <CreditCard className="w-6 h-6 text-[#6C5CE7]" />
+              )}
+              <span className="font-bold text-[#0f0f1a]">
+                Payment Method: {ENABLED_PAYMENT_METHODS[0] === 'cod' ? 'Cash on Delivery' : 'Pay with Card'}
+              </span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ENABLED_PAYMENT_METHODS.includes('card') && (
+                <label 
+                  className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 cursor-pointer transition-colors text-center ${
+                    paymentMethod === 'card' 
+                      ? 'border-[#6C5CE7] bg-[#fcfbfff0]' 
+                      : 'border-gray-100 hover:border-gray-200 bg-white'
+                  }`}
+                >
+                  <input 
+                    type="radio" 
+                    name="paymentMethod" 
+                    className="sr-only"
+                    checked={paymentMethod === 'card'}
+                    onChange={() => setPaymentMethod('card')}
+                  />
+                  <CreditCard className={`w-8 h-8 ${paymentMethod === 'card' ? 'text-[#6C5CE7]' : 'text-gray-400'}`} />
+                  <span className={`font-bold ${paymentMethod === 'card' ? 'text-[#0f0f1a]' : 'text-gray-500'}`}>Pay with Card</span>
+                </label>
+              )}
 
-            <label 
-              className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 cursor-pointer transition-colors text-center ${
-                paymentMethod === 'cod' 
-                  ? 'border-[#6C5CE7] bg-[#fcfbfff0]' 
-                  : 'border-gray-100 hover:border-gray-200 bg-white'
-              }`}
-            >
-              <input 
-                type="radio" 
-                name="paymentMethod" 
-                className="sr-only"
-                checked={paymentMethod === 'cod'}
-                onChange={() => setPaymentMethod('cod')}
-              />
-              <Banknote className={`w-8 h-8 ${paymentMethod === 'cod' ? 'text-[#6C5CE7]' : 'text-gray-400'}`} />
-              <span className={`font-bold ${paymentMethod === 'cod' ? 'text-[#0f0f1a]' : 'text-gray-500'}`}>Cash on Delivery</span>
-            </label>
-          </div>
+              {ENABLED_PAYMENT_METHODS.includes('cod') && (
+                <label 
+                  className={`flex flex-col items-center gap-3 p-6 rounded-xl border-2 cursor-pointer transition-colors text-center ${
+                    paymentMethod === 'cod' 
+                      ? 'border-[#6C5CE7] bg-[#fcfbfff0]' 
+                      : 'border-gray-100 hover:border-gray-200 bg-white'
+                  }`}
+                >
+                  <input 
+                    type="radio" 
+                    name="paymentMethod" 
+                    className="sr-only"
+                    checked={paymentMethod === 'cod'}
+                    onChange={() => setPaymentMethod('cod')}
+                  />
+                  <Banknote className={`w-8 h-8 ${paymentMethod === 'cod' ? 'text-[#6C5CE7]' : 'text-gray-400'}`} />
+                  <span className={`font-bold ${paymentMethod === 'cod' ? 'text-[#0f0f1a]' : 'text-gray-500'}`}>Cash on Delivery</span>
+                </label>
+              )}
+            </div>
+          )}
         </div>
 
       </div>

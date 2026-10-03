@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-5 mt-2 space-y-2">
               <li><strong>Supabase:</strong> Provides our database, hosting, and secure authentication (login) infrastructure.</li>
               <li><strong>Google:</strong> Provides optional sign-in capabilities (Google OAuth).</li>
-              <li><strong>Safepay:</strong> Processes all secure card payments in Pakistan.</li>
+              <li><strong>Safepay:</strong> Processes all secure card payments in Pakistan (currently inactive).</li>
               <li><strong>Resend:</strong> Used to send transactional emails (e.g., order confirmations).</li>
             </ul>
           </section>

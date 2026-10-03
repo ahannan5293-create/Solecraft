@@ -40,10 +40,10 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="text-xl font-bold text-[#0f0f1a] mb-4">4. Orders & Payment</h2>
             <p>
-              We offer two payment methods for your convenience: secure card payment via Safepay, and Cash on Delivery (COD). A valid phone number is required for all COD orders. 
+              Cash on Delivery (COD) is currently the available payment method for your convenience. Additional payment options, including secure card payment via Safepay, may be added in the future. A valid phone number is required for all orders. 
             </p>
             <p className="mt-2">
-              Orders are considered confirmed once payment is completed (for card orders) or immediately upon placement (for COD orders). <strong>Please note that card details are handled entirely by Safepay and are never seen or stored by Solecraft directly.</strong>
+              Orders are considered confirmed immediately upon placement. <strong>Please note that when card payments are active, card details are handled entirely by our payment provider and are never seen or stored by Solecraft directly.</strong>
             </p>
           </section>
 
@@ -64,7 +64,7 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="text-xl font-bold text-[#0f0f1a] mb-4">7. Returns & Refunds</h2>
             <p>
-              Items may be returned within 14 days of delivery provided they are unworn, in their original packaging, and have all tags attached. Refunds for card orders will be processed back to the original payment method. Refunds for Cash on Delivery orders will be processed via bank transfer.
+              Items may be returned within 14 days of delivery provided they are unworn, in their original packaging, and have all tags attached. Refunds for Cash on Delivery orders will be processed via bank transfer. Once additional payment methods such as card payments return, those refunds will be processed back to the original payment method.
             </p>
             <p className="mt-2 text-sm italic text-gray-500">
               Note: This is a placeholder policy and is subject to change based on finalized business terms.
