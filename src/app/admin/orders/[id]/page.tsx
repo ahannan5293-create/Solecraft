@@ -79,7 +79,13 @@ export default async function AdminOrderDetailPage(props: { params: Promise<{ id
         </div>
         
         {/* Status Change Control */}
-        <StatusChange orderId={order.id} initialStatus={order.status} />
+        <StatusChange 
+          orderId={order.id} 
+          initialStatus={order.status} 
+          initialTrackingNumber={order.tracking_number}
+          initialCarrier={order.carrier}
+          initialEstimatedDelivery={order.estimated_delivery}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
