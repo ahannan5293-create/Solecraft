@@ -24,19 +24,14 @@ export default function LoginPage() {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     setLoading(true)
 
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      })
-
-      if (signInError) throw signInError
-
+      const { signInAction } = await import('@/lib/actions/auth')
+      await signInAction(formData)
       router.push('/')
       router.refresh()
     } catch (err: any) {

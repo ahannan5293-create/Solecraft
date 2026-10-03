@@ -27,7 +27,7 @@ export default function SignUpPage() {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     
@@ -48,29 +48,8 @@ export default function SignUpPage() {
     setLoading(true)
 
     try {
-      // Pre-check username
-      const { data: existingUser } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('username', formData.username)
-        .single()
-        
-      if (existingUser) {
-        setError('Username already taken.')
-        setLoading(false)
-        return
-      }
-
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: { username: formData.username, full_name: '' },
-          emailRedirectTo: `${location.origin}/auth/callback`,
-        },
-      })
-
-      if (signUpError) throw signUpError
+      const { signUpAction } = await import('@/lib/actions/auth')
+      const { data } = await signUpAction(formData)
 
       // Check if email confirmation is required
       if (data?.user?.identities?.length === 0 || data.session === null) {

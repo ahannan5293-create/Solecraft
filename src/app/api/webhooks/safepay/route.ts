@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { verifySafepayWebhookSignature } from '@/lib/safepay/client'
 import { decrementStockForOrder } from '@/lib/orders/decrement-stock'
+import { z } from 'zod'
 
 // Named constant for Safepay signature header. Verify against docs!
 const SAFEPAY_SIGNATURE_HEADER_NAME = 'x-sfpy-signature'
@@ -19,16 +20,32 @@ export async function POST(req: Request) {
   }
 
   // 3. Parse JSON after signature validation
-  let payload: any
+  let rawJson: any
   try {
-    payload = JSON.parse(rawBody)
+    rawJson = JSON.parse(rawBody)
   } catch (err) {
     console.error('[webhooks/safepay] Malformed JSON payload.')
     return NextResponse.json({ error: 'Malformed payload' }, { status: 400 })
   }
 
+  const payloadSchema = z.object({
+    reference: z.string().optional(),
+    order_id: z.string().optional(),
+    state: z.string().optional(),
+    status: z.string().optional(),
+    tracker: z.string().optional(),
+    transaction_id: z.string().optional()
+  }).passthrough() // Allow other fields from Safepay
+
+  const parsed = payloadSchema.safeParse(rawJson)
+  if (!parsed.success) {
+    console.error('[webhooks/safepay] Invalid payload shape.', parsed.error)
+    return NextResponse.json({ error: 'Invalid payload shape' }, { status: 400 })
+  }
+
+  const payload = parsed.data
+
   // 4. Extract order reference and payment outcome
-  // Note: Confirm field names (e.g., `reference`, `order_id`, `state`, `status`) with Safepay documentation.
   const orderId = payload.reference || payload.order_id
   const paymentState = payload.state || payload.status // assuming 'PAID' or 'FAILED'
   const paymentReference = payload.tracker || payload.transaction_id || 'safepay_ref'

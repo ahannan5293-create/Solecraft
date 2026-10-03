@@ -1,10 +1,25 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { createCheckoutSession } from '@/lib/safepay/client'
+import { checkoutRateLimit } from '@/lib/rate-limit'
+import { z } from 'zod'
 
 const FREE_SHIPPING_THRESHOLD = 15000
 const FLAT_SHIPPING_COST = 250
+
+const checkoutSchema = z.object({
+  items: z.array(z.object({
+    productId: z.string(),
+    size: z.string(),
+    quantity: z.number().int().positive()
+  })).min(1, 'Cart is empty'),
+  addressId: z.string().min(1, 'Shipping address is required'),
+  contactPhone: z.string().optional(),
+  paymentMethod: z.enum(['card', 'cod'])
+}).refine(data => {
+  if (data.paymentMethod === 'cod' && !data.contactPhone) return false
+  return true
+}, { message: 'Contact phone is required for Cash on Delivery', path: ['contactPhone'] })
 
 export async function POST(req: Request) {
   try {
@@ -15,24 +30,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Rate limiting keyed by user id
+    const { success: rateLimitSuccess } = await checkoutRateLimit.limit(user.id)
+    if (!rateLimitSuccess) {
+      return NextResponse.json({ error: 'Too many attempts, please try again in a minute' }, { status: 429 })
+    }
+
     const body = await req.json()
-    const { items, addressId, contactPhone, paymentMethod } = body
+    const parsed = checkoutSchema.safeParse(body)
 
-    if (!items || !items.length) {
-      return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
     }
 
-    if (!addressId) {
-      return NextResponse.json({ error: 'Shipping address is required' }, { status: 400 })
-    }
-
-    if (paymentMethod !== 'card' && paymentMethod !== 'cod') {
-      return NextResponse.json({ error: 'Invalid payment method' }, { status: 400 })
-    }
-
-    if (paymentMethod === 'cod' && !contactPhone) {
-      return NextResponse.json({ error: 'Contact phone is required for Cash on Delivery' }, { status: 400 })
-    }
+    const { items, addressId, contactPhone, paymentMethod } = parsed.data
 
     // 1. Fetch user's chosen address
     const { data: address, error: addressError } = await supabase
@@ -144,12 +155,8 @@ export async function POST(req: Request) {
 
     // 8. Branch on Payment Method
     if (paymentMethod === 'cod') {
-      const supabaseAdmin = createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SECRET_KEY!
-      )
       const { decrementStockForOrder } = await import('@/lib/orders/decrement-stock')
-      await decrementStockForOrder(supabaseAdmin, order.id)
+      await decrementStockForOrder(supabase, order.id)
       
       return NextResponse.json({ orderId: order.id, redirectTo: `/checkout/success?order_id=${order.id}` })
     } else {

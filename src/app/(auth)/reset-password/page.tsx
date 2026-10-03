@@ -19,12 +19,8 @@ export default function ResetPasswordPage() {
     setLoading(true)
 
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${location.origin}/auth/callback?next=/reset-password/confirm`,
-      })
-
-      if (resetError) throw resetError
-
+      const { resetPasswordAction } = await import('@/lib/actions/auth')
+      await resetPasswordAction(email)
       setSuccess(true)
     } catch (err: any) {
       setError('If an account exists for that email, we\'ve sent a reset link.')

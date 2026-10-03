@@ -53,12 +53,22 @@ export default function ProductForm({ initialProduct, isEditing = false }: Produ
   }
 
   const saveBaseProduct = async () => {
-    if (!name || !slug || !price) {
-      setError('Name, slug, and price are required')
-      return null
-    }
+    const { z } = await import('zod')
+    
+    const productSchema = z.object({
+      name: z.string().min(1, 'Name is required'),
+      slug: z.string().min(1, 'Slug is required'),
+      description: z.string().nullable(),
+      category: z.enum(['men', 'women', 'kids', 'unisex']),
+      price: z.number().positive('Price must be positive'),
+      original_price: z.number().positive().nullable(),
+      badge: z.string().nullable(),
+      is_new: z.boolean(),
+      is_limited_edition: z.boolean(),
+      model_3d_url: z.string().nullable(),
+    })
 
-    const payload = {
+    const payloadRaw = {
       name,
       slug,
       description: description || null,
@@ -70,6 +80,14 @@ export default function ProductForm({ initialProduct, isEditing = false }: Produ
       is_limited_edition: isLimitedEdition,
       model_3d_url: modelUrl || null,
     }
+
+    const parsed = productSchema.safeParse(payloadRaw)
+    if (!parsed.success) {
+      setError(parsed.error.issues[0].message)
+      return null
+    }
+
+    const payload = parsed.data
 
     if (productId) {
       const { error } = await supabase.from('products').update(payload).eq('id', productId)
