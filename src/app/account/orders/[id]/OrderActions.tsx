@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
+import { useState, useTransition } from 'react'
 import { RotateCcw, XCircle, CheckCircle, Loader2 } from 'lucide-react'
+import { requestCancellationAction } from '@/lib/actions/orders'
 
 interface OrderActionsProps {
   orderId: string
@@ -12,39 +11,26 @@ interface OrderActionsProps {
 }
 
 export default function OrderActions({ orderId, status, cancellationRequested }: OrderActionsProps) {
-  const [isCancelling, setIsCancelling] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const [isReordering, setIsReordering] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const router = useRouter()
-  const supabase = createClient()
 
   const canCancel = !cancellationRequested && ['pending', 'paid'].includes(status)
   
-  const handleCancel = async () => {
+  const handleCancel = () => {
     if (!confirm('Are you sure you want to request cancellation for this order?')) return
     
-    setIsCancelling(true)
     setError(null)
     
-    try {
-      const { error } = await supabase
-        .from('orders')
-        .update({ 
-          cancellation_requested: true,
-          cancellation_requested_at: new Date().toISOString()
-        })
-        .eq('id', orderId)
-
-      if (error) throw error
-      
-      setSuccess('Cancellation requested successfully.')
-      router.refresh()
-    } catch (err: any) {
-      setError(err.message || 'Failed to request cancellation')
-    } finally {
-      setIsCancelling(false)
-    }
+    startTransition(async () => {
+      try {
+        await requestCancellationAction(orderId)
+        setSuccess('Cancellation requested successfully.')
+      } catch (err: any) {
+        setError(err.message || 'Failed to request cancellation')
+      }
+    })
   }
 
   const handleReorder = async () => {
@@ -68,10 +54,10 @@ export default function OrderActions({ orderId, status, cancellationRequested }:
       {canCancel && (
         <button
           onClick={handleCancel}
-          disabled={isCancelling}
+          disabled={isPending}
           className="w-full py-3 px-4 rounded-xl border border-red-200 text-red-600 font-bold hover:bg-red-50 hover:border-red-300 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
         >
-          {isCancelling ? <Loader2 className="w-5 h-5 animate-spin" /> : <XCircle className="w-5 h-5" />}
+          {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <XCircle className="w-5 h-5" />}
           Request Cancellation
         </button>
       )}

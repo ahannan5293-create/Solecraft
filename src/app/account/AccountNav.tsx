@@ -1,11 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useTransition } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { User, ShoppingBag, Heart, Settings, MapPin, LogOut } from 'lucide-react'
-import { createClient } from '@/utils/supabase/client'
-import { useRouter } from 'next/navigation'
+import { User, ShoppingBag, Heart, Settings, MapPin, LogOut, Loader2 } from 'lucide-react'
+import { signOutAction } from '@/lib/actions/auth'
 
 const navLinks = [
   { name: 'Overview', href: '/account', icon: User },
@@ -17,12 +16,12 @@ const navLinks = [
 
 export default function AccountNav() {
   const pathname = usePathname()
-  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
 
-  const handleSignOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/login')
+  const handleSignOut = () => {
+    startTransition(() => {
+      signOutAction()
+    })
   }
 
   return (
@@ -54,10 +53,11 @@ export default function AccountNav() {
         
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-gray-50 hover:text-gray-900 w-full text-left"
+          disabled={isPending}
+          className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-gray-50 hover:text-gray-900 w-full text-left disabled:opacity-50"
         >
-          <LogOut className="w-5 h-5 text-gray-400" />
-          Log Out
+          {isPending ? <Loader2 className="w-5 h-5 text-gray-400 animate-spin" /> : <LogOut className="w-5 h-5 text-gray-400" />}
+          {isPending ? 'Logging Out...' : 'Log Out'}
         </button>
       </nav>
     </div>
