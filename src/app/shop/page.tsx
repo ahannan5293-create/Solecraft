@@ -5,7 +5,7 @@ import ProductGrid from '@/components/shop/ProductGrid';
 import Pagination from '@/components/shop/Pagination';
 import PromoBanner from '@/components/shop/PromoBanner';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import { createClient } from '@/utils/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public-client';
 
 import { mapProduct } from '@/lib/products/map-product';
 
@@ -19,7 +19,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
   const category = resolvedSearchParams.category as string | undefined
   const sort = resolvedSearchParams.sort as string | undefined
   
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   let query = supabase
     .from('products')

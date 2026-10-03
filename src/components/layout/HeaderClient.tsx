@@ -70,7 +70,9 @@ export default function HeaderClient({ user, profile }: { user: any, profile: an
             </button>
             
             <div className="relative">
-              {user ? (
+              {user === undefined ? (
+                <div className="w-5 h-5 rounded-full bg-gray-200 animate-pulse" />
+              ) : user ? (
                 <div>
                   <button 
                     onClick={() => setUserMenuOpen(!userMenuOpen)}

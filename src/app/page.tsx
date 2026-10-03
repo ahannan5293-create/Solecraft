@@ -7,7 +7,7 @@ import WhySolecraft from '@/components/home/WhySolecraft';
 import Testimonials from '@/components/home/Testimonials';
 import Newsletter from '@/components/home/Newsletter';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import { createClient } from '@/utils/supabase/server';
+import { createPublicClient } from '@/lib/supabase/public-client';
 
 import { mapProduct } from '@/lib/products/map-product';
 
@@ -16,8 +16,10 @@ const plusJakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
 });
 
+export const revalidate = 300;
+
 export default async function HomePage() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
 
   const { data } = await supabase
     .from('products')
