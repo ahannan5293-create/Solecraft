@@ -24,14 +24,17 @@ import CartPanel from "@/components/cart/CartPanel";
 import { QuickViewProvider } from "@/components/product/QuickViewContext";
 import QuickViewModal from "@/components/product/QuickViewModal";
 import { WishlistProvider } from "@/components/wishlist/WishlistContext";
+import Intro from "@/components/intro/Intro";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      data-intro="true"
     >
       <body className="min-h-full flex flex-col">
+        <Intro />
         <WishlistProvider>
           <CartProvider>
             <QuickViewProvider>
