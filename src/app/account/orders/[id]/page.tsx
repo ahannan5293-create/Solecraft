@@ -126,7 +126,7 @@ export default async function OrderDetailPage(props: { params: Promise<{ id: str
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-100 rounded-full z-0"></div>
             <div 
               className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-[#6C5CE7] rounded-full z-0 transition-all duration-500"
-              style={{ width: `${(steps.filter(s => s.completed).length / (steps.length - 1)) * 100}%` }}
+              style={{ width: `${(Math.max(0, steps.filter(s => s.completed).length - 1) / (steps.length - 1)) * 100}%` }}
             ></div>
             
             {steps.map((step, idx) => (
