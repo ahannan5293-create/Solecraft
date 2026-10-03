@@ -193,6 +193,13 @@ export default function SignUpPage() {
           />
         </div>
 
+        <p className="text-xs text-neutral-500 mt-4 text-center">
+          By signing up, you agree to our{' '}
+          <Link href="/terms-of-service" className="text-purple-600 hover:underline">Terms of Service</Link>
+          {' '}and{' '}
+          <Link href="/privacy-policy" className="text-purple-600 hover:underline">Privacy Policy</Link>.
+        </p>
+
         <button
           type="submit"
           disabled={loading}

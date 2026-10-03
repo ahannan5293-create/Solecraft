@@ -49,13 +49,13 @@ export default function Footer() {
           </p>
           
           <div className="flex flex-wrap items-center justify-center gap-6">
-            <Link href="#" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+            <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+            <Link href="/terms-of-service" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
               Terms of Service
             </Link>
-            <Link href="#" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+            <Link href="/shipping-policy" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
               Shipping
             </Link>
           </div>
