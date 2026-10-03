@@ -1,0 +1,21 @@
+warning: in the working copy of 'src/app/api/checkout/create-order/route.ts', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/app/api/checkout/create-order/route.ts b/src/app/api/checkout/create-order/route.ts[m
+[1mindex 78dc55a..c9dbc46 100644[m
+[1m--- a/src/app/api/checkout/create-order/route.ts[m
+[1m+++ b/src/app/api/checkout/create-order/route.ts[m
+[36m@@ -1,5 +1,6 @@[m
+ import { NextResponse } from 'next/server'[m
+ import { createClient } from '@/utils/supabase/server'[m
+[32m+[m[32mimport { createClient as createAdminClient } from '@supabase/supabase-js'[m
+ import { createCheckoutSession } from '@/lib/safepay/client'[m
+ [m
+ const FREE_SHIPPING_THRESHOLD = 15000[m
+[36m@@ -143,7 +144,7 @@[m [mexport async function POST(req: Request) {[m
+ [m
+     // 8. Branch on Payment Method[m
+     if (paymentMethod === 'cod') {[m
+[31m-      const supabaseAdmin = createClient([m
+[32m+[m[32m      const supabaseAdmin = createAdminClient([m
+         process.env.NEXT_PUBLIC_SUPABASE_URL!,[m
+         process.env.SUPABASE_SECRET_KEY![m
+       )[m

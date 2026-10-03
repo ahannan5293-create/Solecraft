@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { createCheckoutSession } from '@/lib/safepay/client'
 
 const FREE_SHIPPING_THRESHOLD = 15000
@@ -143,7 +144,7 @@ export async function POST(req: Request) {
 
     // 8. Branch on Payment Method
     if (paymentMethod === 'cod') {
-      const supabaseAdmin = createClient(
+      const supabaseAdmin = createAdminClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_SECRET_KEY!
       )
