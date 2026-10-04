@@ -5,9 +5,21 @@ import ContactForm from '@/components/contact/ContactForm';
 import ContactFAQ from '@/components/contact/ContactFAQ';
 import Newsletter from '@/components/home/Newsletter';
 
-export const metadata = {
-  title: 'Contact Us - Solecraft',
-  description: 'Get in touch with the Solecraft team. We are here to help with any questions or support you need.',
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Contact Us | Solecraft',
+  description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
+  openGraph: {
+    title: 'Contact Us | Solecraft',
+    description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Us | Solecraft',
+    description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
+  }
 };
 
 export default function ContactPage() {

@@ -1,9 +1,21 @@
 import React from 'react'
 
-export const metadata = {
-  title: 'Privacy Policy | SOLECRAFT',
-  description: 'Privacy Policy and data practices for SOLECRAFT.',
-}
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | Solecraft',
+  description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
+  openGraph: {
+    title: 'Privacy Policy | Solecraft',
+    description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | Solecraft',
+    description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
+  }
+};
 
 export default function PrivacyPolicyPage() {
   return (

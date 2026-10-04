@@ -6,6 +6,7 @@ import Pagination from '@/components/shop/Pagination';
 import PromoBanner from '@/components/shop/PromoBanner';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { createPublicClient } from '@/lib/supabase/public-client';
+import { Metadata } from 'next';
 
 import { mapProduct } from '@/lib/products/map-product';
 
@@ -13,6 +14,21 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
 });
+
+export const metadata: Metadata = {
+  title: 'Shop | Solecraft',
+  description: 'Browse our complete collection of premium footwear at Solecraft. Find the perfect fit with our cutting-edge designs.',
+  openGraph: {
+    title: 'Shop | Solecraft',
+    description: 'Browse our complete collection of premium footwear at Solecraft. Find the perfect fit with our cutting-edge designs.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Shop | Solecraft',
+    description: 'Browse our complete collection of premium footwear at Solecraft. Find the perfect fit with our cutting-edge designs.',
+  }
+};
 
 export default async function ShopPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedSearchParams = await searchParams

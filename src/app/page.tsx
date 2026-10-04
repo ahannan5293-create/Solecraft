@@ -8,6 +8,7 @@ import Testimonials from '@/components/home/Testimonials';
 import Newsletter from '@/components/home/Newsletter';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { createPublicClient } from '@/lib/supabase/public-client';
+import { Metadata } from 'next';
 
 import { mapProduct } from '@/lib/products/map-product';
 
@@ -15,6 +16,21 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
 });
+
+export const metadata: Metadata = {
+  title: 'Home | Solecraft',
+  description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
+  openGraph: {
+    title: 'Home | Solecraft',
+    description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Home | Solecraft',
+    description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
+  }
+};
 
 export const revalidate = 300;
 
@@ -32,6 +48,23 @@ export default async function HomePage() {
 
   return (
     <main className={`min-h-screen bg-white ${plusJakarta.className}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Store',
+            name: 'Solecraft',
+            url: 'https://solecraft.com',
+            logo: 'https://solecraft.com/favicon.ico',
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+92-300-1234567',
+              contactType: 'customer service',
+            }
+          })
+        }}
+      />
       <HomeHero />
       <FeaturesStrip />
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 flex flex-col gap-24">

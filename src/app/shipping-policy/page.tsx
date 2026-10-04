@@ -1,10 +1,22 @@
 import React from 'react'
 import Link from 'next/link'
 
-export const metadata = {
-  title: 'Shipping Policy | SOLECRAFT',
-  description: 'Shipping Policy for SOLECRAFT.',
-}
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Shipping Policy | Solecraft',
+  description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
+  openGraph: {
+    title: 'Shipping Policy | Solecraft',
+    description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Shipping Policy | Solecraft',
+    description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
+  }
+};
 
 export default function ShippingPolicyPage() {
   return (
