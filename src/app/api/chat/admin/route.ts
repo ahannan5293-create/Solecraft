@@ -200,6 +200,10 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error('Admin Chat error:', error)
+    const errString = error?.message || String(error)
+    if (error?.status === 429 || errString.includes('429') || errString.includes('RESOURCE_EXHAUSTED')) {
+      return NextResponse.json({ reply: 'Step is getting a lot of questions right now — try again in a minute.' })
+    }
     return NextResponse.json({ reply: 'Step is having trouble right now. Please try again later.' })
   }
 }
