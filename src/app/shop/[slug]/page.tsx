@@ -38,8 +38,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const image = productData.product_images?.[0]?.url || 'https://solecraft.com/favicon.ico';
 
   return {
-    title,
+    title: productData.name,
     description,
+    alternates: { canonical: `/shop/${slug}` },
     openGraph: {
       title,
       description,
@@ -76,35 +77,70 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const inStock = product.sizes && product.sizes.some(s => s.stockQuantity > 0);
   
-  const jsonLd: any = {
+  const productJsonLd: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
     image: images,
-    description: product.description || `Shop the ${product.name} at Solecraft.`,
+    description: product.description || `Shop the ${product.name} at Solecraft. Premium footwear with cutting-edge design.`,
+    url: `https://solecraft.com/shop/${product.slug}`,
+    brand: {
+      '@type': 'Brand',
+      name: 'Solecraft',
+    },
     sku: product.sizes?.[0]?.sku || undefined,
+    category: product.category,
     offers: {
       '@type': 'Offer',
-      price: product.price,
+      price: String(product.price),
       priceCurrency: 'PKR',
       availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       url: `https://solecraft.com/shop/${product.slug}`,
+      seller: {
+        '@type': 'Organization',
+        name: 'Solecraft',
+      },
     }
   };
 
   if (product.rating && product.reviewCount) {
-    jsonLd.aggregateRating = {
+    productJsonLd.aggregateRating = {
       '@type': 'AggregateRating',
       ratingValue: product.rating,
       reviewCount: product.reviewCount,
     };
   }
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://solecraft.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Shop',
+        item: 'https://solecraft.com/shop',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.name,
+        item: `https://solecraft.com/shop/${product.slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-[80vh] bg-gray-50 pt-24 pb-16 flex items-center">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([productJsonLd, breadcrumbJsonLd]) }}
       />
       <div className="container mx-auto px-4 sm:px-6">
         <div className="bg-white w-full max-w-[1200px] mx-auto rounded-3xl shadow-sm border border-gray-100 flex flex-col md:flex-row overflow-hidden">

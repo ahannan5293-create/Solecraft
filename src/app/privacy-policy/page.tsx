@@ -3,18 +3,9 @@ import React from 'react'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Solecraft',
+  title: 'Privacy Policy',
   description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
-  openGraph: {
-    title: 'Privacy Policy | Solecraft',
-    description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Privacy Policy | Solecraft',
-    description: 'Learn how Solecraft collects, uses, and protects your personal data. We are committed to ensuring your privacy and security online.',
-  }
+  alternates: { canonical: '/privacy-policy' },
 };
 
 export default function PrivacyPolicyPage() {

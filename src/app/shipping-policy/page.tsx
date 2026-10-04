@@ -4,18 +4,9 @@ import Link from 'next/link'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Shipping Policy | Solecraft',
-  description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
-  openGraph: {
-    title: 'Shipping Policy | Solecraft',
-    description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Shipping Policy | Solecraft',
-    description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders.',
-  }
+  title: 'Shipping Policy',
+  description: 'Information on Solecraft shipping rates, delivery times, and order processing for domestic and international orders across Pakistan.',
+  alternates: { canonical: '/shipping-policy' },
 };
 
 export default function ShippingPolicyPage() {

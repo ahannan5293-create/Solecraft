@@ -8,18 +8,9 @@ import Newsletter from '@/components/home/Newsletter';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Solecraft',
+  title: 'Contact Us',
   description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
-  openGraph: {
-    title: 'Contact Us | Solecraft',
-    description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Contact Us | Solecraft',
-    description: 'Get in touch with the Solecraft team. We are here to help with any questions, orders, or support you may need. We strive to reply within 24 hours.',
-  }
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactPage() {

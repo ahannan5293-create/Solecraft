@@ -3,18 +3,9 @@ import React from 'react'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Solecraft',
+  title: 'Terms of Service',
   description: 'Review the Terms of Service for using the Solecraft website. These terms govern your use of our products, services, and online platform.',
-  openGraph: {
-    title: 'Terms of Service | Solecraft',
-    description: 'Review the Terms of Service for using the Solecraft website. These terms govern your use of our products, services, and online platform.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Terms of Service | Solecraft',
-    description: 'Review the Terms of Service for using the Solecraft website. These terms govern your use of our products, services, and online platform.',
-  }
+  alternates: { canonical: '/terms-of-service' },
 };
 
 export default function TermsOfServicePage() {

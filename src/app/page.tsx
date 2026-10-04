@@ -18,18 +18,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Home | Solecraft',
-  description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
-  openGraph: {
-    title: 'Home | Solecraft',
-    description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Home | Solecraft',
-    description: 'Welcome to Solecraft. The ultimate destination for premium footwear, combining advanced technology with minimalist design for everyday wear.',
-  }
+  title: 'Home',
+  description: 'Solecraft is a premium footwear brand combining advanced technology with minimalist design. Shop shoes engineered for comfort, performance, and everyday style in Pakistan.',
+  alternates: { canonical: '/' },
 };
 
 export const revalidate = 300;
@@ -46,24 +37,43 @@ export default async function HomePage() {
 
   const products = (data || []).map(mapProduct);
 
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Solecraft',
+    url: 'https://solecraft.com',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://solecraft.com/shop?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const storeJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Store',
+    name: 'Solecraft',
+    description: 'Premium footwear brand combining advanced technology with minimalist design. Based in Pakistan.',
+    url: 'https://solecraft.com',
+    logo: 'https://solecraft.com/favicon.ico',
+    currenciesAccepted: 'PKR',
+    paymentAccepted: 'Cash on Delivery',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+92-300-1234567',
+      contactType: 'customer service',
+      availableLanguage: ['English', 'Urdu'],
+    },
+  };
+
   return (
     <main className={`min-h-screen bg-white ${plusJakarta.className}`}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Store',
-            name: 'Solecraft',
-            url: 'https://solecraft.com',
-            logo: 'https://solecraft.com/favicon.ico',
-            contactPoint: {
-              '@type': 'ContactPoint',
-              telephone: '+92-300-1234567',
-              contactType: 'customer service',
-            }
-          })
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([websiteJsonLd, storeJsonLd]) }}
       />
       <HomeHero />
       <FeaturesStrip />
