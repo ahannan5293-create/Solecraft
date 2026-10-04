@@ -1,8 +1,6 @@
 import React from 'react'
 import { requireUser } from '@/utils/auth'
 import AccountNav from './AccountNav'
-import StepChatWidget from '@/components/account/StepChatWidget'
-
 export default async function AccountLayout({
   children,
 }: {
@@ -33,7 +31,6 @@ export default async function AccountLayout({
         </div>
 
       </div>
-      <StepChatWidget />
     </div>
   )
 }

@@ -24,12 +24,3 @@ export const generalApiRateLimit = new Ratelimit({
   prefix: 'ratelimit:general',
 })
 
-// AI Chat rate limit. This protects both per-user abuse and helps avoid exhausting 
-// the shared Gemini free-tier quota across all traffic. 
-// Note: This is a per-user limit, not a global one. The free tier's account-wide 
-// RPM/RPD cap is a separate, shared ceiling across everyone using the app simultaneously.
-export const aiChatRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(10, '60 s'),
-  prefix: 'ratelimit:ai-chat',
-})
