@@ -2,6 +2,7 @@ import React from 'react'
 import { requireAdmin } from '@/lib/auth/require-admin'
 import AdminNav from './AdminNav'
 import { redirect } from 'next/navigation'
+import StepChatWidget from '@/components/admin/StepChatWidget'
 
 export default async function AdminLayout({
   children,
@@ -23,6 +24,7 @@ export default async function AdminLayout({
           {children}
         </main>
       </div>
+      <StepChatWidget />
     </div>
   )
 }
