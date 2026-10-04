@@ -16,6 +16,8 @@ const WishlistContext = createContext<WishlistContextType>({
   toggle: async () => {},
 })
 
+import { toggleWishlistAction } from '@/lib/actions/wishlist'
+
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [productIds, setProductIds] = useState<Set<string>>(new Set())
   const [isLoading, setIsLoading] = useState(true)
@@ -58,9 +60,6 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
-    const { data: userData } = await supabase.auth.getUser()
-    console.log('Session state at point of insert:', { hasUser: !!userData.user, id: userData.user?.id })
-
     const isWishlisted = productIds.has(productId)
     
     // Optimistic update
@@ -72,29 +71,13 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     })
 
     try {
-      if (isWishlisted) {
-        const { error } = await supabase
-          .from('wishlists')
-          .delete()
-          .eq('product_id', productId)
-          .eq('user_id', session.user.id)
-          
-        if (error) throw error
-      } else {
-        const { error } = await supabase
-          .from('wishlists')
-          .insert({ product_id: productId, user_id: session.user.id })
-          
-        if (error) throw error
-      }
+      await toggleWishlistAction(productId, isWishlisted)
     } catch (error: any) {
       console.error('Error toggling wishlist:', {
         message: error?.message,
-        code: error?.code,
-        details: error?.details,
-        hint: error?.hint,
-        raw: JSON.stringify(error),
+        raw: error
       })
+      alert(error?.message || 'Failed to update wishlist. Please try again.')
       // Revert optimistic update
       setProductIds(prev => {
         const next = new Set(prev)
